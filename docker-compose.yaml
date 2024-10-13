@@ -1,13 +1,13 @@
 services:
   tritonserver:
     image: nvcr.io/nvidia/tritonserver:24.08-py3
-    command: tritonserver --model-repository=/models
+    command: tritonserver --model-repository=/mnt/models
     ports:
      - 8000:8000
      - 8001:8001
      - 8002:8002
     volumes:
-      - /models:/models
+      - ./models/:/mnt/models/
     network_mode: "host"
     deploy:
       resources:
@@ -18,9 +18,12 @@ services:
 
   tritonclient:
     image: nvcr.io/nvidia/tritonserver:24.08-py3-sdk
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t
     command: pip install torchvision && python3 /workspace/client.py
     volumes:
-      - ./:/workspace/
+      - ./client.py:/workspace/client.py
+      - ./img1.jpg:/workspace/img1.jpg
     network_mode: "host"
     depends_on:
       tritonserver:
