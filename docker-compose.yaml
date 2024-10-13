@@ -8,6 +8,7 @@ services:
      - 8002:8002
     volumes:
       - /models:/models
+    network_mode: "host"
     deploy:
       resources:
         reservations:
@@ -20,6 +21,7 @@ services:
     command: pip install torchvision && python3 /workspace/client.py
     volumes:
       - ./:/workspace/
+    network_mode: "host"
     depends_on:
       tritonserver:
         condition: service_started
