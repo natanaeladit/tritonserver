@@ -18,9 +18,9 @@ services:
 
   tritonclient:
     image: nvcr.io/nvidia/tritonserver:24.08-py3-sdk
-    # stdin_open: true # docker run -i
-    # tty: true        # docker run -t
-    command: pip install torchvision && python3 /workspace/client.py
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    command: pip install torchvision; python3 /workspace/client.py;
     volumes:
       - ./client.py:/workspace/client.py
       - ./img1.jpg:/workspace/img1.jpg
