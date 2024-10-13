@@ -1,0 +1,4 @@
+name: "densenet_onnx"
+backend: "onnxruntime"
+max_batch_size: 0
+default_model_filename: "model.onnx"

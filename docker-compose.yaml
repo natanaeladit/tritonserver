@@ -1,0 +1,25 @@
+services:
+  tritonserver:
+    image: nvcr.io/nvidia/tritonserver:24.08-py3
+    command: tritonserver --model-repository=/models
+    ports:
+     - 8000:8000
+     - 8001:8001
+     - 8002:8002
+    volumes:
+      - /models:/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+  tritonclient:
+    image: nvcr.io/nvidia/tritonserver:24.08-py3-sdk
+    command: pip install torchvision && python3 /workspace/client.py
+    volumes:
+      - ./:/workspace/
+    depends_on:
+      tritonserver:
+        condition: service_started
